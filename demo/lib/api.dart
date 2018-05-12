@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 /// GCP key to access the Places API
-const key = 'AIzaSyBRAqMM72Fjz2tfQ5PmQqynkFmdvc_2dk8 ';
+const key = '';
 
 class Place {
   final String name;
