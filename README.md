@@ -9,3 +9,4 @@ an example application created to test Flutter possibilities with ASP.Net Core 2
   * Run API and check whether the emulated browser can access any endpoint
   * Adding an appropriate rule in Firewall may be necessary
   * Disable proxy settings in Android Studio and on emulated device if necessary
+  5.     "dart.previewDart2": true; add in visual studio code
