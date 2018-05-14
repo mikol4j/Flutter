@@ -3,9 +3,9 @@ C:\Repository\Flutter\webapi\bin\Debug\netcoreapp2.0\webapi.runtimeconfig.json
 C:\Repository\Flutter\webapi\bin\Debug\netcoreapp2.0\webapi.runtimeconfig.dev.json
 C:\Repository\Flutter\webapi\bin\Debug\netcoreapp2.0\webapi.dll
 C:\Repository\Flutter\webapi\bin\Debug\netcoreapp2.0\webapi.pdb
-C:\Repository\Flutter\webapi\obj\Debug\netcoreapp2.0\webapi.csprojResolveAssemblyReference.cache
 C:\Repository\Flutter\webapi\obj\Debug\netcoreapp2.0\webapi.csproj.CoreCompileInputs.cache
 C:\Repository\Flutter\webapi\obj\Debug\netcoreapp2.0\webapi.AssemblyInfoInputs.cache
 C:\Repository\Flutter\webapi\obj\Debug\netcoreapp2.0\webapi.AssemblyInfo.cs
 C:\Repository\Flutter\webapi\obj\Debug\netcoreapp2.0\webapi.dll
 C:\Repository\Flutter\webapi\obj\Debug\netcoreapp2.0\webapi.pdb
+C:\Repository\Flutter\webapi\obj\Debug\netcoreapp2.0\webapi.csprojResolveAssemblyReference.cache
