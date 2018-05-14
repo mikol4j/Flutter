@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 /// GCP key to access the Places API
 const key = '';
-
+String token;
 class Place {
   final String name;
   final double rating;
@@ -18,21 +18,29 @@ class Place {
 }
 
 
-Future<http.Response> getPlaces(double lat, double lng) {
-  return getPlacesFromNetwork();
-}
 
 /// Retrieves a stream of places from the Google Places API
-Future<http.Response>getPlacesFromNetwork() async {
-  var url = 'http://192.168.43.230:57971/api/values';
-
+bool login(String username, String password)  {
+  var url = '';
+  print('Response status: ${username}');
+    print('Response status: ${password}');
   var client = new http.Client();
   var httpClient1 = createHttpClient();
   var user = {
-  "name": "John Smith",
-  "email": "john@example.com"
+  "password": password.toString(),
+  "email": username.toString(),
 };
-  return httpClient1.post(url, body: JSON.encode(user),headers: {"Content-Type": "application/json"});
+  http.post(url, body: JSON.encode(user),headers: {"Content-Type": "application/json"}).then((response) {
+    var data = (response.body);
+    print('holl');
+    print(data);
+    token = data;
+  });
+ // print('Response status: ${response.body}');
+  //token = response.body;
+  return token == null ? false : true;
+
+
   //var streamedRes = await client.send(new http.Request('get', Uri.parse(url)));
   //return streamedRes.stream().toString()
   //return http.get('http://192.168.43.230:57971/values');
@@ -40,3 +48,20 @@ Future<http.Response>getPlacesFromNetwork() async {
 
 }
 
+/// Retrieves a stream of places from the Google Places API
+getProtectedData() async {
+  var url = '';
+
+  // var response =   await http.get(url,
+  // print('Response status: ${response.statusCode}');
+  // return response;
+
+
+    var response = await http.get(
+      url,
+      headers: {
+        "authorization": "bearer "+token+''
+      }
+    );
+    print(response.body);
+}
