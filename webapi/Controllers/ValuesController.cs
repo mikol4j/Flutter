@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Novell.Directory.Ldap;
 
 namespace webapi.Controllers
 {
@@ -13,6 +14,7 @@ namespace webapi.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            ValidateUser();
             return new string[] { "value1", "value2" };
         }
 
@@ -40,6 +42,25 @@ namespace webapi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+        public bool ValidateUser(string domainName = "pentacomp", string username = "mjankows", string password = "Lipiec2017!!")
+        {
+            string userDn = $"{username}@{domainName}";
+            try
+            {
+                using (var connection = new LdapConnection { SecureSocketLayer = false })
+                {
+                    connection.Connect(domainName, LdapConnection.DEFAULT_PORT);
+                    connection.Bind(userDn, password);
+                    if (connection.Bound)
+                        return true;
+                }
+            }
+            catch (LdapException ex)
+            {
+                // Log exception
+            }
+            return false;
         }
     }
 }

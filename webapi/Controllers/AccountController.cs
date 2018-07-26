@@ -11,26 +11,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using System.DirectoryServices.AccountManagement;
 
 namespace WebApiJwt.Controllers
 {
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly IConfiguration _configuration;
 
-        //public AccountController(
-        //    UserManager<IdentityUser> userManager,
-        //    SignInManager<IdentityUser> signInManager,
-        //    IConfiguration configuration
-        //    )
-        //{
-        //    _userManager = userManager;
-        //    _signInManager = signInManager;
-        //    _configuration = configuration;
-        //}
         public AccountController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -39,47 +30,28 @@ namespace WebApiJwt.Controllers
         [HttpGet]
         public async Task<object> Protected()
         {
-            return "Protected area";
+            return "You are not premium.";
         }
         [HttpPost]
-        public async Task<object> Login([FromBody] LoginDto model)
+        public string Login([FromBody] LoginDto model)
         {
-            //var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
-            //if (result.Succeeded)
-            //{
-            //   var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
             var user = new IdentityUser
             {
-                UserName = model.Email,
-                Email = model.Email
+                UserName = model.Username,
+                Email = model.Username
             };
-            return await GenerateJwtToken(model.Email, user);
-            // }
+
+            bool result = ActiveDirectoryAuthenticate(model.Username, model.Password);
+
+            if(result)
+            return  GenerateJwtToken(model.Username, user);
 
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
 
-        [HttpPost]
-        public async Task<object> Register([FromBody] RegisterDto model)
-        {
-            var user = new IdentityUser
-            {
-                UserName = model.Email,
-                Email = model.Email
-            };
-            //var result = await _userManager.CreateAsync(user, model.Password);
 
-            //if (result.Succeeded)
-            //{
-            //    await _signInManager.SignInAsync(user, false);
-            //    return await GenerateJwtToken(model.Email, user);
-            //}
-            return await GenerateJwtToken(model.Email, user);
-            throw new ApplicationException("UNKNOWN_ERROR");
-        }
-
-        private async Task<object> GenerateJwtToken(string email, IdentityUser user)
+        private string GenerateJwtToken(string email, IdentityUser user)
         {
             var claims = new List<Claim>
             {
@@ -106,21 +78,21 @@ namespace WebApiJwt.Controllers
         public class LoginDto
         {
             [Required]
-            public string Email { get; set; }
+            public string Username { get; set; }
 
             [Required]
             public string Password { get; set; }
 
         }
 
-        public class RegisterDto
+        public static bool ActiveDirectoryAuthenticate(string login, string password)
         {
-            [Required]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
-            public string Password { get; set; }
+            bool isValid = false;
+            using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "pentacomp"))
+            {
+                isValid = pc.ValidateCredentials(login, password);
+            }
+            return isValid;
         }
     }
 }

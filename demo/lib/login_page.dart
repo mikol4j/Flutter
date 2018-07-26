@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     controller: myUsernameController,
     keyboardType: TextInputType.emailAddress,
     autofocus: false,
-    initialValue: 'mikolaj.jankwoski@pentacomp.pl',
+    //initialValue: 'mikolaj.jankwoski@pentacomp.pl',
     decoration: new InputDecoration(
       hintText: 'Email',
       contentPadding: new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
       final password = new TextFormField(
     controller: myPasswordController,
     autofocus: false,
-    initialValue: 'some password',
+    //initialValue: 'some password',
     obscureText: true,
     decoration: new InputDecoration(
       hintText: 'Password',
@@ -69,19 +69,15 @@ class _LoginPageState extends State<LoginPage> {
       child: new MaterialButton(
         minWidth: 200.0,
         height: 42.0,
-        onPressed: (){
+        onPressed: () async {
           //api.login(username.controller.text,password.controller.text).then(( r) => print(r.body));
-         var tmp =  api.login(username.controller.text,password.controller.text);
 
-          //print(res.response);
-          if(tmp == true )
+          if(await api.login(username.controller.text,password.controller.text)==true);
           {
-            Navigator.of(context).pushNamed(HomePage.tag);
+             Navigator.of(context).pushNamed(HomePage.tag);
           }
-          else
-          {
-            print('lipa');
-          }
+       
+
 
         },
         color: Colors.lightBlueAccent,

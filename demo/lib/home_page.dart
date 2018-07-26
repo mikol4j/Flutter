@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'api.dart' as api;
 
 class HomePage extends StatelessWidget {
     static String tag = 'home-page';
@@ -28,6 +29,27 @@ class HomePage extends StatelessWidget {
         style:new  TextStyle(fontSize: 16.0, color: Colors.white),
       ),
     );
+     final loginButton = new Padding(
+
+    padding: new EdgeInsets.symmetric(vertical: 16.0),
+    child: new Material(
+      borderRadius: new BorderRadius.circular(30.0),
+      shadowColor: Colors.lightBlueAccent.shade100,
+      elevation: 5.0,
+      child: new MaterialButton(
+        minWidth: 200.0,
+        height: 42.0,
+        onPressed: (){
+
+       api.addActivity(null);
+
+
+        },
+        color: Colors.lightBlueAccent,
+        child: new Text('Żądanie do API', style: new TextStyle(color: Colors.white)),
+      ),
+    ),
+  );
 
     final body = new Container(
       width: MediaQuery.of(context).size.width,
@@ -38,7 +60,8 @@ class HomePage extends StatelessWidget {
 
       ),
       child: new Column(children: <Widget>[
-        mikolaj, welcome, lorem
+        mikolaj, welcome, lorem,
+        loginButton
       ],
     ),);
     return new Scaffold(
